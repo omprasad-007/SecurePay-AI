@@ -1,7 +1,7 @@
 ﻿import { auth } from "./firebase";
 import { getStoredRole } from "./themeManager";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function apiFetch(path, options = {}) {
   const isFormData = options.body instanceof FormData;
