@@ -1,0 +1,41 @@
+%PDF-1.4
+1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
+2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
+3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj
+4 0 obj << /Length 613 >> stream
+0.8 w
+0 0 0 RG
+BT /F1 18 Tf 50 750 Td (SecurePay AI Architecture) Tj ET
+60 640 220 60 re S
+BT /F1 12 Tf 68 682 Td (React Frontend \(Vite + Tailwind\)) Tj ET
+330 640 220 60 re S
+BT /F1 12 Tf 338 682 Td (FastAPI Backend) Tj ET
+60 540 220 60 re S
+BT /F1 12 Tf 68 582 Td (Firebase Auth) Tj ET
+330 540 220 60 re S
+BT /F1 12 Tf 338 582 Td (ML Pipeline) Tj ET
+60 440 220 60 re S
+BT /F1 12 Tf 68 482 Td (Local Storage) Tj ET
+330 440 220 60 re S
+BT /F1 12 Tf 338 482 Td (Graph Engine) Tj ET
+280 670 m 330 670 l S
+170 640 m 170 600 l S
+440 640 m 440 600 l S
+170 540 m 170 500 l S
+440 540 m 440 500 l S
+280 470 m 330 470 l S
+endstream
+endobj
+5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000905 00000 n 
+trailer << /Size 6 /Root 1 0 R >>
+startxref
+975
+%%EOF

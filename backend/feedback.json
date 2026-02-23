@@ -1,0 +1,10 @@
+[
+  {
+    "transaction_id": "TXNTEST4",
+    "label": "fraud",
+    "notes": "smoke test",
+    "score": 88.5,
+    "role": "Risk Analyst",
+    "timestamp": "2026-02-23T11:33:23.239721+00:00"
+  }
+]

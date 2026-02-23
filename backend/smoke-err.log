@@ -1,0 +1,8 @@
+INFO:     Started server process [10904]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+2026-02-23 17:03:22,606 INFO GET / 200
+2026-02-23 17:03:23,223 INFO POST /predict 200
+2026-02-23 17:03:23,248 INFO POST /feedback 200
+2026-02-23 17:03:23,248 INFO POST /reports/export 200

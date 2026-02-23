@@ -1,0 +1,146 @@
+[
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1000",
+      "user_id": "USER1",
+      "receiverId": "MERCH1",
+      "amount": 935.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1001",
+      "user_id": "USER2",
+      "receiverId": "MERCH2",
+      "amount": 4053.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1002",
+      "user_id": "USER3",
+      "receiverId": "MERCH3",
+      "amount": 3056.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1003",
+      "user_id": "USER4",
+      "receiverId": "MERCH4",
+      "amount": 3860.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1004",
+      "user_id": "USER1",
+      "receiverId": "MERCH5",
+      "amount": 1333.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1005",
+      "user_id": "USER2",
+      "receiverId": "MERCH6",
+      "amount": 5127.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1006",
+      "user_id": "USER3",
+      "receiverId": "MERCH1",
+      "amount": 1282.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1007",
+      "user_id": "USER4",
+      "receiverId": "MERCH2",
+      "amount": 2316.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1008",
+      "user_id": "USER1",
+      "receiverId": "MERCH3",
+      "amount": 4114.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1009",
+      "user_id": "USER2",
+      "receiverId": "MERCH4",
+      "amount": 2966.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1010",
+      "user_id": "USER3",
+      "receiverId": "MERCH5",
+      "amount": 482.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  },
+  {
+    "reason": "invalid_timestamp",
+    "row": {
+      "transaction_id": "TXN1011",
+      "user_id": "USER4",
+      "receiverId": "MERCH6",
+      "amount": 3368.0,
+      "timestamp": "NaT",
+      "risk_level": "Low",
+      "final_score": NaN
+    }
+  }
+]

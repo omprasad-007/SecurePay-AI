@@ -1,0 +1,37 @@
+%PDF-1.4
+1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
+2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
+3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj
+4 0 obj << /Length 553 >> stream
+0.8 w
+0 0 0 RG
+BT /F1 18 Tf 50 750 Td (SecurePay AI Flowchart) Tj ET
+70 650 460 50 re S
+BT /F1 12 Tf 78 682 Td (1. Capture Transaction + Profile) Tj ET
+70 570 460 50 re S
+BT /F1 12 Tf 78 602 Td (2. Feature Engineering) Tj ET
+70 490 460 50 re S
+BT /F1 12 Tf 78 522 Td (3. Anomaly + Supervised + Graph Risk) Tj ET
+70 410 460 50 re S
+BT /F1 12 Tf 78 442 Td (4. Weighted Risk Score) Tj ET
+70 330 460 50 re S
+BT /F1 12 Tf 78 362 Td (5. Explainable Output + Alerts) Tj ET
+300 650 m 300 620 l S
+300 570 m 300 540 l S
+300 490 m 300 460 l S
+300 410 m 300 380 l S
+endstream
+endobj
+5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000845 00000 n 
+trailer << /Size 6 /Root 1 0 R >>
+startxref
+915
+%%EOF
