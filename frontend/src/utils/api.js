@@ -1,7 +1,6 @@
-﻿import { auth } from "./firebase";
+import API_BASE_URL from "../config/api";
+import { auth } from "./firebase";
 import { getStoredRole } from "./themeManager";
-
-const BASE_URL = import.meta.env.VITE_API_URL;
 
 export async function apiFetch(path, options = {}) {
   const isFormData = options.body instanceof FormData;
@@ -17,10 +16,15 @@ export async function apiFetch(path, options = {}) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${BASE_URL}${path}`, {
-    ...options,
-    headers
-  });
+  let response;
+  try {
+    response = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers
+    });
+  } catch {
+    throw new Error("Network error: Unable to reach backend API");
+  }
 
   if (!response.ok) {
     const payload = await response.json().catch(() => ({ detail: "Request failed" }));

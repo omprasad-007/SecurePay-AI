@@ -1,7 +1,8 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import logging
 import os
+import re
 import time
 from collections import defaultdict, deque
 
@@ -22,19 +23,33 @@ app = FastAPI(title="SecurePay AI", version="1.0.0")
 
 
 def _allowed_origins() -> list[str]:
-    configured = os.getenv("FRONTEND_ORIGIN", "http://localhost:5173,http://localhost:5174")
+    configured = os.getenv(
+        "FRONTEND_ORIGIN",
+        "http://localhost:5173,http://localhost:5174,https://securepay-ai.vercel.app",
+    )
     return [item.strip() for item in configured.split(",") if item.strip()]
 
 
 origins = _allowed_origins()
+origin_regex = os.getenv("FRONTEND_ORIGIN_REGEX", r"https://.*\.vercel\.app")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=origins,
+    allow_origin_regex=origin_regex,
+    allow_credentials=False,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
 )
+
+
+def _origin_allowed(origin: str | None) -> bool:
+    if not origin:
+        return False
+    if origin in origins:
+        return True
+    return bool(origin_regex and re.match(origin_regex, origin))
+
 
 RATE_LIMIT = int(os.getenv("RATE_LIMIT_PER_MIN", "60"))
 request_log: dict[str, deque] = defaultdict(deque)
@@ -76,7 +91,7 @@ async def jwt_verification_middleware(request: Request, call_next):
     if not auth_header.startswith("Bearer "):
         response = JSONResponse(status_code=401, content={"detail": "JWT token missing"})
         origin = request.headers.get("origin")
-        if origin and origin in origins:
+        if _origin_allowed(origin):
             response.headers["Access-Control-Allow-Origin"] = origin
             response.headers["Vary"] = "Origin"
         return response
