@@ -231,6 +231,9 @@ export function fallbackUploadSummary(rows = []) {
     distribution[row.risk_level] = (distribution[row.risk_level] || 0) + 1;
   });
   return {
+    success: true,
+    preview: normalized.slice(0, 10),
+    totalRows: total,
     summary: {
       uploaded_records: rows.length,
       stored_records: total,

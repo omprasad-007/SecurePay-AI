@@ -6,6 +6,9 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 
+from typing import Any, Optional
+
+
 class DateRangeQuery(BaseModel):
     start_date: date
     end_date: date
@@ -35,7 +38,10 @@ class UploadSummary(BaseModel):
 
 
 class UploadResponse(BaseModel):
-    summary: UploadSummary
+    success: bool = True
+    preview: Optional[list[dict[str, Any]]] = None
+    totalRows: Optional[int] = None
+    summary: Optional[UploadSummary] = None
     message: str
 
 

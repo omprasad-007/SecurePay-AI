@@ -142,7 +142,23 @@ async def upload_audit_transactions(
         risk_level_distribution=distribution,
     )
 
-    return UploadResponse(summary=summary, message="Audit transactions analyzed and stored successfully.")
+    # Convert stored objects (which might be SQLAlchemy models) to dicts for the preview
+    preview_data = []
+    for item in stored[:10]:
+        if hasattr(item, "__dict__"):
+            d = dict(item.__dict__)
+            d.pop("_sa_instance_state", None)
+            preview_data.append(d)
+        else:
+            preview_data.append(item)
+
+    return UploadResponse(
+        success=True,
+        preview=preview_data,
+        totalRows=len(stored),
+        summary=summary,
+        message="Audit transactions analyzed and stored successfully."
+    )
 
 
 @router.get("/summary", response_model=AuditSummaryResponse)

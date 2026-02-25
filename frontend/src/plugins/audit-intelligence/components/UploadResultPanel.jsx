@@ -57,6 +57,38 @@ export default function UploadResultPanel({ result }) {
           </div>
         ))}
       </div>
+
+      {result.preview && result.preview.length > 0 && (
+        <div className="space-y-2 mt-4 pt-4 border-t border-gray-100">
+          <p className="font-medium">Backend Sample Preview (Top 5)</p>
+          <div className="overflow-x-auto">
+            <table className="ai-plugin-table text-xs">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Merchant</th>
+                  <th>Amount</th>
+                  <th>Risk Level</th>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {result.preview.slice(0, 5).map((row, idx) => (
+                  <tr key={row.transaction_id || idx}>
+                    <td>{String(row.transaction_id || "").slice(0, 8)}...</td>
+                    <td>{row.merchant_name}</td>
+                    <td>{row.transaction_amount}</td>
+                    <td className={`risk-text-${(row.risk_level || "low").toLowerCase()}`}>
+                      {row.risk_level}
+                    </td>
+                    <td>{row.risk_score}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

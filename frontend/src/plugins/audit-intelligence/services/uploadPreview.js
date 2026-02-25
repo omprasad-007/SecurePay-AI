@@ -1,3 +1,5 @@
+import * as XLSX from "xlsx";
+
 function extensionOf(fileName) {
   const normalized = String(fileName || "").toLowerCase();
   if (!normalized.includes(".")) return "";
@@ -173,13 +175,51 @@ export async function parseUploadPreview(file) {
     };
   }
 
-  if (extension === ".xlsx" || extension === ".pdf") {
+  if (extension === ".xlsx") {
+    try {
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data, { type: "array" });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[firstSheetName];
+      const rows = XLSX.utils.sheet_to_json(worksheet);
+
+      const normalizedRows = rows.map(normalizeRow).filter(Boolean);
+      const preview = previewShape(rows);
+
+      return {
+        extension,
+        columns: preview.columns,
+        rows: preview.rows,
+        normalizedRows,
+        note:
+          normalizedRows.length < rows.length
+            ? "Some Excel rows skipped due to invalid date/amount format."
+            : "Excel file parsed successfully.",
+      };
+    } catch (err) {
+      console.error("Excel parse error:", err);
+      return {
+        extension,
+        columns: ["error"],
+        rows: [{ error: "Failed to parse Excel file locally." }],
+        normalizedRows: [],
+        note: "Try different file or upload directly.",
+      };
+    }
+  }
+
+  if (extension === ".pdf") {
     return {
       extension,
-      columns: ["file_name", "file_type", "file_size_kb", "preview"],
-      rows: metadataRows,
+      columns: ["Status", "Recommendation"],
+      rows: [
+        {
+          Status: "PDF preview not supported locally",
+          Recommendation: "Upload to backend for full analysis",
+        },
+      ],
       normalizedRows: [],
-      note: "Preview table shows file metadata. Full parsing will happen in backend analyzer.",
+      note: "PDF parsing requires backend resources.",
     };
   }
 
