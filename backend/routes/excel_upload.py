@@ -218,10 +218,14 @@ async def upload_excel(payload: ExcelUploadRequest, request: Request, user=Depen
             "fraud_score": round(adaptive["adaptive_score"] / 100, 4),
             "risk_level": decision["risk_level"],
             "risk_drivers": adaptive["risk_drivers"],
+            "factor_scores": adaptive.get("factor_scores", {}),
+            "parameters": adaptive.get("parameters", []),
             "decision_action": decision["action"],
             "patterns": patterns,
             "finalScore": round(adaptive["adaptive_score"], 2),
             "riskLevel": decision["risk_level"],
+            "overallRiskScore": round(adaptive.get("overall_risk_score", adaptive["adaptive_score"]), 2),
+            "overallRiskLevel": adaptive.get("overall_risk_level", decision["risk_level"]),
         }
         processed.append(enriched)
         working_history.append(enriched)

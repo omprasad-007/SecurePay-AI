@@ -63,8 +63,6 @@ async def predict(payload: PredictRequest, user=Depends(get_current_user)):
     if decision["risk_level"] in {"HIGH", "CRITICAL"}:
         log_fraud_attempt(f"High risk transaction flagged: {tx.get('id')} user={tx.get('userId')}")
 
-    risk_drivers = _build_risk_drivers(results, adaptive)
-
     return {
         "fraud_score": adaptive["adaptive_score"] / 100,
         "risk_level_enterprise": decision["risk_level"],
@@ -79,7 +77,11 @@ async def predict(payload: PredictRequest, user=Depends(get_current_user)):
         "adaptive_threshold": adaptive["adaptive_threshold"],
         "adaptive_risk_level": decision["risk_level"],
         "decision_action": decision["action"],
-        "risk_drivers": risk_drivers,
+        "overall_risk_score": adaptive.get("overall_risk_score", adaptive["adaptive_score"]),
+        "overall_risk_level": adaptive.get("overall_risk_level", decision["risk_level"]),
+        "factor_scores": adaptive.get("factor_scores", {}),
+        "parameters": adaptive.get("parameters", []),
+        "risk_drivers": adaptive.get("risk_drivers", []),
         "patterns": patterns,
     }
 
@@ -100,17 +102,3 @@ def _build_explanation(results: dict) -> str:
     return "Risk drivers: " + ", ".join(reasons)
 
 
-def _build_risk_drivers(results: dict, adaptive: dict) -> list[dict]:
-    features = results.get("features", {})
-    drivers = []
-    if features.get("velocity_1h", 0) >= 4:
-        drivers.append({"factor": "High Velocity", "impact": 0.20})
-    if features.get("device_change", 0):
-        drivers.append({"factor": "New Device", "impact": 0.18})
-    if results.get("graph_risk", 0) >= 45:
-        drivers.append({"factor": "Graph Centrality", "impact": 0.15})
-    if features.get("geo_distance_km", 0) >= 200:
-        drivers.append({"factor": "Geo Mismatch", "impact": 0.10})
-    if not drivers:
-        drivers = [{"factor": "Normal Behavioral Signature", "impact": 0.05}]
-    return drivers

@@ -50,6 +50,9 @@ export default function Login() {
         <p className="text-sm text-muted mt-4">
           New here? <Link className="text-indigo-500" to="/signup">Create an account</Link>
         </p>
+        <p className="text-sm text-muted mt-2">
+          Enterprise workspace? <Link className="text-indigo-500" to="/enterprise/login">Login here</Link>
+        </p>
       </div>
     </div>
   );

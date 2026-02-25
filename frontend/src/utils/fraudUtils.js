@@ -1,4 +1,6 @@
-﻿const STORAGE_KEY = "securepay_transactions";
+import { auth } from "./firebase";
+
+const STORAGE_KEY = "securepay_transactions";
 const EXCEL_SUMMARY_KEY = "securepay_excel_summary";
 const DATASET_INSIGHTS_KEY = "securepay_dataset_insights";
 const DETECTED_PATTERNS_KEY = "securepay_detected_patterns";
@@ -17,8 +19,13 @@ function randomFrom(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+function userScopedKey(baseKey) {
+  const uid = auth.currentUser?.uid;
+  return uid ? `${baseKey}_${uid}` : `${baseKey}_anonymous`;
+}
+
 export function getTransactions() {
-  const raw = localStorage.getItem(STORAGE_KEY);
+  const raw = localStorage.getItem(userScopedKey(STORAGE_KEY));
   if (!raw) return [];
   try {
     return JSON.parse(raw);
@@ -28,15 +35,15 @@ export function getTransactions() {
 }
 
 export function saveTransactions(transactions) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+  localStorage.setItem(userScopedKey(STORAGE_KEY), JSON.stringify(transactions));
 }
 
 export function saveExcelSummary(summary) {
-  localStorage.setItem(EXCEL_SUMMARY_KEY, JSON.stringify(summary || null));
+  localStorage.setItem(userScopedKey(EXCEL_SUMMARY_KEY), JSON.stringify(summary || null));
 }
 
 export function getExcelSummary() {
-  const raw = localStorage.getItem(EXCEL_SUMMARY_KEY);
+  const raw = localStorage.getItem(userScopedKey(EXCEL_SUMMARY_KEY));
   if (!raw) return null;
   try {
     return JSON.parse(raw);
@@ -46,11 +53,11 @@ export function getExcelSummary() {
 }
 
 export function saveDatasetInsights(insights) {
-  localStorage.setItem(DATASET_INSIGHTS_KEY, JSON.stringify(insights || null));
+  localStorage.setItem(userScopedKey(DATASET_INSIGHTS_KEY), JSON.stringify(insights || null));
 }
 
 export function getDatasetInsights() {
-  const raw = localStorage.getItem(DATASET_INSIGHTS_KEY);
+  const raw = localStorage.getItem(userScopedKey(DATASET_INSIGHTS_KEY));
   if (!raw) return null;
   try {
     return JSON.parse(raw);
@@ -60,11 +67,11 @@ export function getDatasetInsights() {
 }
 
 export function saveDetectedPatterns(patterns) {
-  localStorage.setItem(DETECTED_PATTERNS_KEY, JSON.stringify(patterns || []));
+  localStorage.setItem(userScopedKey(DETECTED_PATTERNS_KEY), JSON.stringify(patterns || []));
 }
 
 export function getDetectedPatterns() {
-  const raw = localStorage.getItem(DETECTED_PATTERNS_KEY);
+  const raw = localStorage.getItem(userScopedKey(DETECTED_PATTERNS_KEY));
   if (!raw) return [];
   try {
     return JSON.parse(raw);
@@ -74,26 +81,15 @@ export function getDetectedPatterns() {
 }
 
 export function seedTransactions() {
-  const existing = getTransactions();
-  if (existing.length > 0) return existing;
-  const seeded = Array.from({ length: 12 }).map((_, index) =>
-    createTransaction({
-      id: `TXN${1000 + index}`,
-      amount: Math.floor(Math.random() * 5000) + 200,
-      userId: `USER${(index % 4) + 1}`,
-      receiverId: `MERCH${(index % 6) + 1}`,
-      timestamp: new Date(Date.now() - index * 3600 * 1000).toISOString()
-    })
-  );
-  saveTransactions(seeded);
-  return seeded;
+  return getTransactions();
 }
 
 export function createTransaction(input = {}) {
   const location = randomFrom(locations);
+  const activeUserId = auth.currentUser?.uid || "";
   return {
     id: input.id || `TXN${Math.floor(Math.random() * 90000) + 10000}`,
-    userId: input.userId || `USER${Math.floor(Math.random() * 5) + 1}`,
+    userId: input.userId || activeUserId,
     receiverId: input.receiverId || `MERCH${Math.floor(Math.random() * 8) + 1}`,
     amount: input.amount || Math.floor(Math.random() * 15000) + 100,
     deviceId: input.deviceId || randomFrom(devicePool),

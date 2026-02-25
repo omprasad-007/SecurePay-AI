@@ -1,0 +1,62 @@
+import React from "react";
+
+function distributionRows(distribution = {}) {
+  return Object.entries(distribution)
+    .map(([level, count]) => ({ level, count: Number(count || 0) }))
+    .sort((a, b) => b.count - a.count);
+}
+
+export default function UploadResultPanel({ result }) {
+  if (!result?.summary) {
+    return (
+      <section className="card ai-plugin-card">
+        <p className="ai-plugin-subtle">Run analyze to view upload summary and stored risk profile.</p>
+      </section>
+    );
+  }
+
+  const summary = result.summary;
+  const distribution = distributionRows(summary.risk_level_distribution || {});
+  const maxCount = Math.max(1, ...distribution.map((item) => item.count));
+
+  return (
+    <section className="card ai-plugin-card space-y-4">
+      <div>
+        <h3 className="text-lg font-semibold">Analyze & Store Result</h3>
+        <p className="ai-plugin-subtle mt-1">{result.message || "Upload processed."}</p>
+      </div>
+
+      <div className="ai-plugin-grid ai-plugin-grid-2">
+        <article>
+          <p className="ai-plugin-subtle">Uploaded Records</p>
+          <p className="text-2xl font-semibold">{Number(summary.uploaded_records || 0).toLocaleString()}</p>
+        </article>
+        <article>
+          <p className="ai-plugin-subtle">Stored Records</p>
+          <p className="text-2xl font-semibold">{Number(summary.stored_records || 0).toLocaleString()}</p>
+        </article>
+        <article>
+          <p className="ai-plugin-subtle">Flagged Records</p>
+          <p className="text-2xl font-semibold">{Number(summary.flagged_records || 0).toLocaleString()}</p>
+        </article>
+        <article>
+          <p className="ai-plugin-subtle">Average Risk Score</p>
+          <p className="text-2xl font-semibold">{Number(summary.average_risk_score || 0).toFixed(2)}</p>
+        </article>
+      </div>
+
+      <div className="space-y-2">
+        <p className="font-medium">Risk Distribution</p>
+        {distribution.map((item) => (
+          <div key={item.level} className="ai-bar-row">
+            <span className="w-20 text-sm">{item.level}</span>
+            <div className="ai-bar">
+              <span style={{ width: `${(item.count / maxCount) * 100}%` }} />
+            </div>
+            <span className="text-sm">{item.count}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}

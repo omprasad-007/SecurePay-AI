@@ -5,7 +5,12 @@ const links = [
   { name: "Dashboard", path: "/" },
   { name: "Transactions", path: "/transactions" },
   { name: "Fraud Analytics", path: "/analytics" },
+  { name: "Risk Insights", path: "/risk-insights" },
+  { name: "Risk Intelligence", path: "/risk-intelligence" },
+  { name: "Audit Advanced", path: "/audit-advanced" },
+  { name: "Audit Upload", path: "/audit-upload" },
   { name: "Fraud Heatmap", path: "/heatmap" },
+  { name: "Heatmap Intelligence", path: "/fraud-heatmap-intelligence" },
   { name: "Simulation Lab", path: "/simulation" },
   { name: "Excel Upload", path: "/excel-upload" },
   { name: "About", path: "/about" }

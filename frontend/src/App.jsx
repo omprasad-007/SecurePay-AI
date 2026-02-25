@@ -13,7 +13,14 @@ import About from "./pages/About.jsx";
 import FraudHeatmap from "./pages/FraudHeatmap.jsx";
 import SimulationLab from "./pages/SimulationLab.jsx";
 import ExcelUpload from "./pages/ExcelUpload.jsx";
+import RiskInsights from "./pages/RiskInsights.jsx";
 import AIAssistant from "./components/AIAssistant.jsx";
+import FraudHeatmapIntelligencePage from "./plugins/heatmap-intelligence/pages/FraudHeatmapIntelligencePage.jsx";
+import AuditAdvancedPage from "./plugins/audit-intelligence/pages/AuditAdvancedPage.jsx";
+import AuditUploadPage from "./plugins/audit-intelligence/pages/AuditUploadPage.jsx";
+import RiskIntelligencePage from "./plugins/audit-intelligence/pages/RiskIntelligencePage.jsx";
+import EnterpriseApp from "./enterprise/EnterpriseApp.jsx";
+import EnterpriseLoginPage from "./enterprise/pages/EnterpriseLoginPage.jsx";
 import { getStoredRole, resolveThemeClass, setStoredRole } from "./utils/themeManager";
 
 const ThemeContext = React.createContext();
@@ -46,9 +53,11 @@ function RoleRoute({ role, allow, children }) {
 }
 
 export default function App() {
+  const location = useLocation();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState(() => getStoredRole());
+  const isEnterprisePath = location.pathname.startsWith("/enterprise");
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (currentUser) => {
@@ -63,13 +72,15 @@ export default function App() {
     setStoredRole(nextRole);
   };
 
-  if (loading) {
+  if (loading && !isEnterprisePath) {
     return <div className="min-h-screen flex items-center justify-center text-lg font-semibold">Loading SecurePay AI...</div>;
   }
 
   return (
     <ThemeProvider>
       <Routes>
+        <Route path="/enterprise/login" element={<EnterpriseLoginPage />} />
+        <Route path="/enterprise/*" element={<EnterpriseApp />} />
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />} />
         <Route
@@ -85,7 +96,13 @@ export default function App() {
                       <Route path="/" element={<Dashboard user={user} />} />
                       <Route path="/transactions" element={<Transactions user={user} role={role} />} />
                       <Route path="/analytics" element={<FraudAnalytics user={user} role={role} />} />
+                      <Route path="/risk-insights" element={<RiskInsights user={user} />} />
+                      <Route path="/risk-intelligence" element={<RiskIntelligencePage />} />
                       <Route path="/heatmap" element={<FraudHeatmap />} />
+                      <Route path="/heatmap-intelligence" element={<FraudHeatmapIntelligencePage />} />
+                      <Route path="/fraud-heatmap-intelligence" element={<FraudHeatmapIntelligencePage />} />
+                      <Route path="/audit-advanced" element={<AuditAdvancedPage />} />
+                      <Route path="/audit-upload" element={<AuditUploadPage />} />
                       <Route path="/simulation" element={<SimulationLab />} />
                       <Route path="/excel-upload" element={<ExcelUpload />} />
                       <Route path="/about" element={<About />} />

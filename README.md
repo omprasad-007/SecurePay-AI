@@ -74,6 +74,10 @@ FIREBASE_CLIENT_EMAIL=your_client_email
 ALLOW_INSECURE_DEV=true
 RATE_LIMIT_PER_MIN=60
 FRONTEND_ORIGIN=http://localhost:5173
+ENABLE_AUDIT_PLUGIN=false
+ENABLE_HEATMAP_INTELLIGENCE=false
+AUDIT_PLUGIN_DB_URL=sqlite:///./audit_plugin.db
+HEATMAP_PLUGIN_DB_URL=sqlite:///./audit_plugin.db
 ```
 
 ## How To Use
@@ -83,6 +87,7 @@ FRONTEND_ORIGIN=http://localhost:5173
 4. Open `Transactions` to simulate a new transfer and get a fraud score.
 5. Download the demo CSV from Transactions for training or reporting.
 6. Open `Fraud Analytics` to view graph risk, anomaly summaries, and controls.
+7. Open `/enterprise/login` for multi-tenant enterprise mode (local storage; no enterprise DB/JWT setup needed).
 
 ## Product Tour
 1. Dashboard: View total transactions, fraud rate, and live risk trends.
@@ -98,6 +103,9 @@ FRONTEND_ORIGIN=http://localhost:5173
 - `POST /reports/export` - exports CSV, summary PDF, or metrics (auditor/admin)
 - `POST /upload-excel` - ingests base64 CSV/XLSX, cleans, scores, and returns processed transactions + insights
 - `POST /upload-excel/report` - generates markdown documentation from upload insights
+- `GET /health` - backend status + optional plugin mount status
+- `GET /api/audit/*` - advanced audit plugin APIs (when `ENABLE_AUDIT_PLUGIN=true`)
+- `GET /api/heatmap/*` - heatmap intelligence APIs (when `ENABLE_HEATMAP_INTELLIGENCE=true`)
 
 ## Dataset & Training
 Generate synthetic transactions:
@@ -130,8 +138,14 @@ python docs/generate_diagrams.py
 
 ## Results
 - Final score is computed as:
-  - `0.4 * anomaly_score + 0.4 * supervised_prob + 0.2 * graph_risk`
-- Risk levels: Low (<40), Medium (40–70), High (>70)
+  - `(amount_deviation_risk * 0.30)`
+  - `+ (location_anomaly_risk * 0.20)`
+  - `+ (velocity_risk * 0.15)`
+  - `+ (merchant_novelty_risk * 0.15)`
+  - `+ (time_based_risk * 0.05)`
+  - `+ (account_risk * 0.10)`
+  - `+ (graph_network_risk * 0.05)`
+- Risk levels: Low (0–30), Medium (31–60), High (61–80), Critical (81–100)
 
 ## Cybersecurity Controls
 - API rate limiting
@@ -180,3 +194,8 @@ Backend Excel module:
 
 ## Screenshots
 Add screenshots after running the app locally.
+
+## Enterprise Upgrade (Multi-Tenant)
+- Frontend enterprise module (active local-storage mode): `frontend/src/enterprise/`
+- Enterprise backend blueprint (optional): `backend/main_enterprise.py`
+- Enterprise schema/docs (optional reference): `backend/enterprise/sql/schema.sql`, `docs/enterprise-production-upgrade.md`
